@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Frontend</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("/static/images/one.png") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .card { 
+      background: #f8f9fa; /* light grey card */
+      max-width: 720px; 
+      margin: 0 auto; 
+      padding: 24px; 
+      border-radius: 10px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+    }
+    h1 { margin-top:0; }
+    label { display:block; margin:10px 0 6px; font-weight:600; }
+    input[type="file"], select, input[type="number"] { 
+      width:100%; 
+      padding:10px; 
+      border:1px solid #ddd; 
+      border-radius:8px; 
+    }
+    .row { 
+      display:grid; 
+      grid-template-columns: repeat(2, minmax(0,1fr)); 
+      gap:12px; 
+    }
+
+    /* Buttons */
+    button, 
+    a.btn { 
+      margin-top:16px; 
+      width:100%; 
+      padding:12px; 
+      background:linear-gradient(90deg, #ff6a00, #ffcc00);
+      color:#fff; 
+      border:none; 
+      border-radius:8px; 
+      cursor:pointer; 
+      font-size:16px; 
+      text-align:center; 
+      text-decoration:none; 
+      display:inline-block; 
+      transition: background 0.3s ease;
+    }
+    button:hover, 
+    a.btn:hover { 
+      background:#003f88;
+    }
+
+    .hint { font-size:12px; color:#666; }
+
+   .navbar {
+     display: flex;
+     justify-content:space-between;
+     align-items:center   
+     gap: 0;                
+     padding: 0;
+     background:linear-gradient(90deg, #ff6a00, #ffcc00);  
+     position: fixed;
+     width: 98%;
+     height: 60px;          
+     top: 0;
+     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.nav-left, .nav-right {
+  display: flex;   
+  align-items: center;
+}
+
+.navbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 20px;         
+  background: linear-gradient(90deg, #ff6a00, #ffcc00);
+  border: none;
+  height: 100%;            
+  transition: background 0.3s ease;
+}
+
+.navbar a:hover {
+  background: #003f88;     
+}
+
+  </style>
+</head>
+<body>
+   <div class="navbar">
+<!-- Navbar -->
+ 
+
+      <!-- Left side (Back button) -->
+      <div class="nav-left">
+        <a href="/">← Back</a>
+      </div>
+<div style="flex:1; display:flex; justify-content:center; align-items:center;">
+    <span style="font-weight:bold; font-size:1.5em; letter-spacing:2px; text-transform:uppercase;
+                 background: linear-gradient(90deg, #001f54, #003f88);
+                 color:white; padding:8px 20px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+      👁️ VISIONX
+    </span>
+  </div>
+      <!-- Right side (nav items) -->
+      <div class="nav-right">
+        <a href="/index">HOME</a>
+        <a href="/about">ABOUT</a>
+        <a href="/exit">EXIT</a>
+      </div>
+   </div>
+   <div style="margin-top:80px;"></div>
+
+  <!-- Upload Section -->
+  <div class="card">
+    <h1>YOLOv8 Inference</h1>
+    <form action="/predict" method="POST" enctype="multipart/form-data">
+      <label>Upload image or video</label>
+      <input type="file" name="file" accept="image/*,video/*" multiple required />
+
+      <div class="row">
+        <div>
+          <label>Confidence</label>
+          <input type="number" name="conf" value="0.25" min="0" max="1" step="0.01" />
+          <div class="hint">Lower = more boxes; higher = fewer boxes.</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label>IoU</label>
+          <input type="number" name="iou" value="0.45" min="0" max="1" step="0.01" />
+        </div>
+        <div></div>
+      </div>
+
+      <button type="submit">Run Detection</button>
+    </form>
+
+    <a class="btn" href="/webcam">Use Webcam</a>
+  </div>
+</body>
+</html>

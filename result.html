@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Result</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("/static/images/one.png") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+      padding: 0;
+      background: linear-gradient(90deg, #ff6a00, #ffcc00);
+      position: fixed;
+      width: 98%;
+      height: 60px;
+      top: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .navbar a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0 20px;
+      background: linear-gradient(90deg, #ff6a00, #ffcc00);
+      border: none;
+      height: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background: #003f88;
+    }
+
+    .card {
+      background: #f8f9fa;
+      max-width: 900px;
+      margin: 120px auto 40px auto;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1, h2 { margin-top:0; }
+    img, video { max-width:100%; border-radius:8px; }
+    table { width:100%; border-collapse: collapse; margin-top:16px; }
+    th, td { padding:10px; border-bottom:1px solid #eee; text-align:left; font-size:14px; }
+    .back { display:inline-block; margin-top:16px; color:#5bc0de; font-weight:bold; text-decoration:none; }
+    .back:hover { text-decoration:underline; }
+    .meta { color:#666; font-size:14px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div style="flex:1; display:flex; justify-content:center; align-items:center;">
+      <span style="font-weight:bold; font-size:1.5em; letter-spacing:2px; text-transform:uppercase;
+                   background: linear-gradient(90deg, #001f54, #003f88);
+                   color:white; padding:8px 20px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+       👁️ VISIONX 
+      </span>
+    </div>
+    <a href="/index">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/exit">EXIT</a>
+  </div>
+  <div style="margin-top:80px;"></div>
+
+  <!-- Results -->
+  {% for item in results %}  
+  <div class="card">
+    <h2>File: {{ item.upload_name }}</h2>
+    <div class="meta">
+      <div><strong>Confidence:</strong> {{ item.conf }} | <strong>IoU:</strong> {{ item.iou }}</div>
+    </div>
+
+    {% if item.is_video %}
+      <img src="{{ url_for('stream_video', video_file=item.video_path[1:], conf=item.conf, iou=item.iou) }}" alt="Streaming Video">
+    {% else %}
+      <img src="{{ item.image_path }}" alt="Prediction output">
+    {% endif %}
+
+    {% if item.detections and not item.is_video %}
+      <h2>Detected Objects</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Confidence</th>
+            <th>x1</th>
+            <th>y1</th>
+            <th>x2</th>
+            <th>y2</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in item.detections %}
+            <tr>
+              <td>{{ d.class_name }} ({{ d.class_id }})</td>
+              <td>{{ '%.2f'|format(d.confidence) }}</td>
+              <td>{{ '%.1f'|format(d.x1) }}</td>
+              <td>{{ '%.1f'|format(d.y1) }}</td>
+              <td>{{ '%.1f'|format(d.x2) }}</td>
+              <td>{{ '%.1f'|format(d.y2) }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+
+    <p><a href="{{ url_for('index') }}" class="back">← Back</a></p>
+  </div>
+  {% endfor %}
+
+</body>
+</html>

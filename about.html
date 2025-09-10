@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About – YOLOv8 Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("/static/images/one.png") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 24px;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 { margin-top: 0; }
+    a.btn {
+      display: inline-block;
+      padding: 10px 16px;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>About This Project</h1>
+    <p>This project uses the YOLOv8 object detection model to perform real-time detection on uploaded images, videos, and live webcam feeds.</p>
+    <p>The model identifies objects with configurable confidence and IoU thresholds, allowing for flexible performance tuning.</p>
+    <p>Technologies used: HTML, CSS and Python (Flask) for backend.</p>
+    <a class="btn" href="{{ url_for('index') }}">← Back to Home</a>
+  </div>
+</body>
+</html>

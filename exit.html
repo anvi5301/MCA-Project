@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: url("/static/images/one.png") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+      gap: 0;
+      padding: 0;
+      background: linear-gradient(90deg, #ff6a00, #ffcc00);
+      position: fixed;
+      width: 98%;
+      height: 60px;
+      top: 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .navbar a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0 20px;
+      background: linear-gradient(90deg, #ff6a00, #ffcc00);
+      border: none;
+      height: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background: #003f88;
+    }
+
+    /* Center "Thank You" */
+    .center-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      font-weight: bold;
+      font-size: 3em;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+      color: #f1f1f1;
+      opacity: 0;
+      animation: fadeIn 3s ease-in-out forwards;
+    }
+
+    /* Fade-in keyframes */
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+<div style="flex:1; display:flex; justify-content:center; align-items:center;">
+      <span style="font-weight:bold; font-size:1.5em; letter-spacing:2px; text-transform:uppercase;
+                   background: linear-gradient(90deg, #001f54, #003f88);
+                   color:white; padding:8px 20px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+       👁️ VISIONX 
+      </span>
+    </div>  
+    <a href="/index">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/exit">EXIT</a>
+  </div>
+
+  <!-- Center content -->
+  <div class="center-text">
+    🎉 Thank You for Visiting!
+  </div>
+</body>
+</html>

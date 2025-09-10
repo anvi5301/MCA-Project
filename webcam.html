@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 – Webcam</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: url("/static/images/one.png") no-repeat center center fixed;
+      background-size: cover;
+      margin:0; 
+      padding:24px; 
+    }
+
+   .navbar {
+     display: flex;
+     justify-content: flex-end;
+     align-items: stretch;   
+     gap: 0;                
+     padding: 0;
+     background:  linear-gradient(90deg, #ff6a00, #ffcc00);  
+     position: fixed;
+     width: 98%;
+     height: 60px;          
+     top: 0;
+     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.navbar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0 20px;         
+  background: linear-gradient(90deg, #ff6a00, #ffcc00);     
+  border: none;
+  height: 100%;            
+  transition: background 0.3s ease;
+}
+
+.navbar a:hover {
+  background: linear-gradient(90deg, #ff6a00, #ffcc00);    
+}
+
+
+    /* Card */
+    .card { 
+      background: #f8f9fa; 
+      max-width:900px; 
+      margin:120px auto 40px auto; 
+      padding:24px; 
+      border-radius:10px; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+    }
+
+    h1 { margin-top:0; text-align:center; }
+
+    .row { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:12px; }
+    input[type="number"] { 
+      width:100%; 
+      padding:10px; 
+      border:1px solid #ddd; 
+      border-radius:8px; 
+    }
+    label { font-weight:600; margin-bottom:6px; display:block; }
+
+    /* Buttons */
+    button, a.btn { 
+      display:inline-block; 
+      padding:10px 16px; 
+      background:#5bc0de; /* light blue */
+      color:#fff; 
+      border:none; 
+      border-radius:8px; 
+      text-decoration:none; 
+      cursor:pointer; 
+      font-weight:bold;
+      transition: background 0.3s ease;
+    }
+    button:hover, a.btn:hover { 
+      background:#31b0d5; /* darker light blue */
+    }
+
+    .toolbar{ display:flex; gap:10px; align-items:flex-end; margin-bottom:16px; flex-wrap:wrap; }
+    img { width:100%; max-height:70vh; object-fit:contain; background:#000; border-radius:8px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+ <div style="position:absolute; left:50%; transform:translateX(-50%); display:flex; align-items:center; height:100%;">
+    <span style="font-weight:bold; font-size:1.5em; letter-spacing:2px; text-transform:uppercase;
+                 background: linear-gradient(90deg, #001f54, #003f88);
+                 color:white; padding:8px 20px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+      👁️ VISIONX
+    </span>
+  </div>
+
+    <a href="/index">HOME</a>
+    <a href="/about">ABOUT</a>
+    <a href="/exit">EXIT</a>
+  </div>
+  <div style="margin-top:80px;"></div>
+
+  <div class="card">
+    <h1>Live Webcam Detection</h1>
+
+    <form class="toolbar" id="ctrl">
+      <div>
+        <label>Confidence</label>
+        <input type="number" id="conf" min="0" max="1" step="0.01" value="{{ conf }}">
+      </div>
+      <div>
+        <label>IoU</label>
+        <input type="number" id="iou" min="0" max="1" step="0.01" value="{{ iou }}">
+      </div>
+      <div>
+        <label>Camera Index</label>
+        <input type="number" id="cam" min="0" step="1" value="0">
+      </div>
+      <button type="submit">Apply</button>
+      <a href="{{ url_for('index') }}" class="btn">← Back</a>
+    </form>
+
+    <img id="stream" alt="Webcam stream will appear here" />
+  </div>
+
+  <script>
+    const img = document.getElementById('stream');
+    const form = document.getElementById('ctrl');
+    const params = new URLSearchParams(window.location.search);
+    const conf = document.getElementById('conf');
+    const iou  = document.getElementById('iou');
+    const cam  = document.getElementById('cam');
+
+    if (params.get('conf')) conf.value = params.get('conf');
+    if (params.get('iou'))  iou.value  = params.get('iou');
+    if (params.get('cam'))  cam.value  = params.get('cam');
+
+    function refreshStream() {
+      const q = new URLSearchParams({ conf: conf.value || '0.25', iou: iou.value || '0.45', cam: cam.value || '0' });
+      img.src = '/video_feed?' + q.toString() + '&_=' + Date.now();
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      refreshStream();
+      const url = new URL(window.location.href);
+      url.searchParams.set('conf', conf.value);
+      url.searchParams.set('iou', iou.value);
+      url.searchParams.set('cam', cam.value);
+      history.replaceState(null, '', url.toString());
+    });
+
+    // auto-start
+    refreshStream();
+  </script>
+</body>
+</html>
+
